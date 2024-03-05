@@ -25,7 +25,7 @@ func main() {
 	// declare map 3
 	// colors := make(map[int]string)
 	// colors[10] = "#ffffff" // assign a new value to map
-	// delete(colors, 10)     // delete a key in map
+	// delete(colors, "green") // delete a key in map
 
 	printMap(colors)
 	fmt.Println(colors)
