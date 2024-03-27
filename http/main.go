@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 )
+
+type logWriter struct{}
 
 func main() {
 	resp, err := http.Get("http://google.com")
@@ -15,8 +18,17 @@ func main() {
 		fmt.Println(resp)
 	}
 
-	bs := make([]byte, 99999)  // create slice of empty byte to store the response from http request
-	n, _ := resp.Body.Read(bs) // call read function from Reader interface
+	lw := logWriter{}
+	io.Copy(lw, resp.Body) // os.stdout is a writer interface
+
+	// bs := make([]byte, 99999)  // create slice of empty byte to store the response from http request
+	// n, _ := resp.Body.Read(bs) // call read function from Reader interface
+	// fmt.Println(string(bs))
+	// fmt.Println(n)
+}
+
+func (lw logWriter) Write(bs []byte) (int, error) {
 	fmt.Println(string(bs))
-	fmt.Println(n)
+	fmt.Println("Just wrote this many bytes: ", len(bs))
+	return len(bs), nil
 }
