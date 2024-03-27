@@ -2,34 +2,35 @@ package main
 
 import "fmt"
 
-type bot interface {
-	getGreeting() string // any type that have this exact same function (including the paremeter and return type), will be a member of type bot which is predecessors/child and bot is the successor/parent
+type shape interface {
+	getArea() float64
 }
 
-type englishBot struct {
-	greeting string
+type square struct {
+	sideLength float64
 }
 
-type spanishBot struct {
-	greeting string
+type triangle struct {
+	height float64
+	base   float64
 }
 
 func main() {
-	eb := englishBot{greeting: "Hello"}
-	sb := spanishBot{greeting: "Hola!"}
-	printGreeting(eb)
-	printGreeting(sb)
+	s := square{sideLength: 10}
+	t := triangle{height: 10, base: 10}
+
+	printArea(s)
+	printArea(t)
 }
 
-func printGreeting(b bot) {
-	fmt.Println(b.getGreeting())
+func printArea(s shape) {
+	fmt.Println(s.getArea())
 }
 
-// these functions are like overidding from the bot interface with the custom function each
-func (eb englishBot) getGreeting() string {
-	return eb.greeting
+func (s square) getArea() float64 {
+	return s.sideLength * s.sideLength
 }
 
-func (sb spanishBot) getGreeting() string {
-	return sb.greeting
+func (t triangle) getArea() float64 {
+	return 0.5 * t.base * t.height
 }
